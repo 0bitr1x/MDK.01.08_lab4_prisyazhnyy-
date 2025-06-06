@@ -11,14 +11,14 @@ namespace GraphLab
         public List<Node<T>> Neightbors { get; set; } = new();
         public List<int> Weights { get; set; } = new();
     }
-
+    
     public class Edge<T>
     {
         public Node<T> From { get; set; }
         public Node<T> To { get; set; }
         public int Weight { get; set; }
     }
-
+    
     public class Graph<T>
     {
         private bool _isDirected = false;
@@ -164,6 +164,7 @@ namespace GraphLab
             return result;
         }
 
+        // --- Метод для топологической сортировки ---
         public List<Node<T>> TopologicalSort(out bool isPossible)
         {
             Dictionary<Node<T>, bool> visited = new();
@@ -219,10 +220,9 @@ namespace GraphLab
         }
     }
 
-    // Вспомогательный класс для запуска приложения
-    internal class App
+    internal class Program
     {
-        public void Run()
+        static void Main(string[] args)
         {
             Graph<string> graph = new Graph<string>(isDirected: true, isWeighted: false);
 
@@ -235,7 +235,7 @@ namespace GraphLab
             graph.AddEdge(A, C);
             graph.AddEdge(B, D);
             graph.AddEdge(C, D);
-
+            
             List<Node<string>> order = graph.TopologicalSort(out bool isPossible);
 
             if (isPossible)
@@ -250,16 +250,6 @@ namespace GraphLab
             {
                 Console.WriteLine("Невозможно выполнить топологическую сортировку — есть цикл.");
             }
-        }
-    }
-
-    // Точка входа
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            App app = new App();
-            app.Run();
         }
     }
 }
